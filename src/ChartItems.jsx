@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import arrow from './arrow-icon.png';
 
 function shortenName(longName) {
-    if (longName.length > 12) {
-        return longName.substring(0,8) + '...';
+    if (longName.length > 10) {
+        return longName.substring(0,8) + '..';
     } else {
         return longName;
     }
@@ -20,17 +20,11 @@ function checkName(name, pop) {
 function ChartItems(props) {
     const [modal, setModal] = useState(false);
     const { maxDeathsRatio } = props;
+    const { rank } = props;
     const name = props.info[0];
     const shortName = shortenName(name);
     let population = props.info[1];
     let deathsPerMillion = props.info[2];
-
-    if (name === 'USA') {
-        const newPopulation = 330138000;
-        const totalDeaths = deathsPerMillion * (population / 1000000);
-        deathsPerMillion = (totalDeaths / newPopulation) * 1000000;
-        population = newPopulation
-    }
 
     const barLength = deathsPerMillion * 10;
 
@@ -53,6 +47,11 @@ function ChartItems(props) {
     const rowStyle = {
         display: 'flex',
         float: 'left'
+    };
+
+    const rankStyle = {
+        textAlign: 'left',
+        float: 'left',
     };
 
     const nameStyle = {
@@ -137,6 +136,7 @@ function ChartItems(props) {
             <hr style={modalHrStyle}/>
             <li>Population: {(population / 1000000).toFixed(1)} million</li>
             <li>Deaths: {(deathsPerMillion * (population / 1000000)).toFixed(0)}</li>
+            <li>Death Rate: {((deathsPerMillion * (population / 1000000)/population)).toFixed(6)}%</li>
         </ul>
     </div>
     );
@@ -145,7 +145,7 @@ function ChartItems(props) {
     return (
         <div style={rowStyle}>
             <div style={nameStyle}>
-                {shortName}: {deathsPerMillion.toFixed(1)}
+                <div style={rankStyle}>{rank}.</div>{shortName}: {deathsPerMillion.toFixed(1)}
             </div>
             <div style={spacerStyle}>-</div>
             <div style={barWrapperStyle}>

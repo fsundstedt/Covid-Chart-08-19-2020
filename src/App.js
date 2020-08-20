@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
 import ChartItems from './ChartItems.jsx';
 
-let barColor = [];
-
-let allInfo = [];
-
-let maxDeaths = 0;
-let totalDeaths = 0;
-let rawArrays = [];
-let sortedArrays = [];
-let sortedShortLabels = [];
-let sortedLongLabels = [];
-let deathsPerMillion = [];
+function usaCheck(name, population) {
+  if (name === 'USA') {
+    console.log('USA')
+    return 330138000;
+  } else {
+    return population;
+  }
+};
 
 const dataUrl = 'https://corona-api.com/countries';
 
@@ -35,7 +32,7 @@ class App extends Component {
     let updatedData = [];
 
     data.forEach((country, index) => {
-      const singleArray = [country.name, country.population, (country.latest_data.deaths / country.population) * 1000000];
+      const singleArray = [country.name, usaCheck(country.name, country.population), (country.latest_data.deaths / usaCheck(country.name, country.population)) * 1000000];
       if (singleArray[1] >= 1000000 && singleArray[2] > 0) {
         updatedData.push(singleArray);
       } else {
@@ -112,7 +109,7 @@ class App extends Component {
         </div>
         <div style={chartStyle}>
           {data.map((country, index) => {
-            return (<ChartItems info={country} maxDeathsRatio={maxDeathsRatio}/>)
+            return (<ChartItems info={country} maxDeathsRatio={maxDeathsRatio} rank={index+1}/>)
           })}
         </div>
         <div>
