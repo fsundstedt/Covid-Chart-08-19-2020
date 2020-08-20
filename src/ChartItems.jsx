@@ -139,7 +139,7 @@ function ChartItems(props) {
             <hr style={modalHrStyle}/>
             <li>Population: {(population / 1000000).toFixed(1)} million</li>
             <li>Deaths: {(deathsPerMillion * (population / 1000000)).toFixed(0)}</li>
-            <li>Death Rate: {((deathsPerMillion * (population / 1000000)/population) * 100).toFixed(6)}%</li>
+            <li>Death Rate: {((deathsPerMillion * (population / 1000000)/population) * 100).toFixed(3)}%</li>
         </ul>
     </div>
     );
