@@ -55,6 +55,9 @@ function ChartItems(props) {
     };
 
     const nameStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         color: 'black',
         height: '25px',
         width: '160px',
