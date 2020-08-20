@@ -28,6 +28,7 @@ function ChartItems(props) {
         const newPopulation = 330138000;
         const totalDeaths = deathsPerMillion * (population / 1000000);
         deathsPerMillion = (totalDeaths / newPopulation) * 1000000;
+        population = newPopulation
     }
 
     const barLength = deathsPerMillion * 10;
@@ -46,13 +47,12 @@ function ChartItems(props) {
         } else {
             setModal(true);
         }
-       console.log(modal);
-    }
+    };
 
     const rowStyle = {
         display: 'flex',
         float: 'left'
-    }
+    };
 
     const nameStyle = {
         color: 'black',
@@ -60,7 +60,7 @@ function ChartItems(props) {
         width: '160px',
         textAlign: 'right',
         float: 'left'
-    }
+    };
 
     const spacerStyle = {
         width: '6px',
@@ -70,7 +70,7 @@ function ChartItems(props) {
         borderBottom: 'none',
         borderLeft: 'none',
         float: 'left'
-    }
+    };
 
     const barWrapperStyle = {
         display: 'flex',
@@ -81,7 +81,7 @@ function ChartItems(props) {
         border: '1px solid rgba(140, 140, 140)',
         borderBottom: 'none',
         float: 'left'
-    }
+    };
 
     const barStyle = {
         width: `${barLength}px`,
@@ -89,7 +89,47 @@ function ChartItems(props) {
         backgroundColor: changeColor(deathsPerMillion),
         border: '1px solid rgba(140, 140, 140, 1)',
         borderLeft: 'none',
-    }
+    };
+
+    const modalStyle = {
+        position: 'absolute',
+        display: 'flex',
+        justifyContent: 'center',
+        marginLeft: '5px',
+        marginTop: '5px',
+        padding: '8px',
+        paddingTop: '0px',
+        color: 'white',
+        minHeight: '34px',
+        backgroundColor: 'rgba(20, 20, 20, 0.8)',
+        borderRadius: '4px',
+    };
+
+    const modalListStyle = {
+        marginTop: '6px',
+        listStyleType: 'none',
+        paddingLeft: '2px',
+    };
+
+    const modalNameStyle = {
+        paddingLeft: '0px',
+    };
+
+    const modalHrStyle = {
+        margin: '2px',
+    };
+
+    const modalOn = (
+    <div style={modalStyle}>
+        <ul style={modalListStyle}>
+            <li style={modalNameStyle}>^{name}</li>
+            <hr style={modalHrStyle}/>
+            <li>Population: {(population / 1000000).toFixed(1)} million</li>
+            <li>Deaths: {(deathsPerMillion * (population / 1000000)).toFixed(0)}</li>
+        </ul>
+    </div>
+    );
+    const modalOff = <div></div>
 
     return (
         <div style={rowStyle}>
@@ -98,11 +138,11 @@ function ChartItems(props) {
             </div>
             <div style={spacerStyle}>-</div>
             <div style={barWrapperStyle}>
-                <div style={barStyle} onClick={() => toggleModal()}></div>
+    <div style={barStyle} onMouseEnter={() => toggleModal()} onMouseLeave={() => toggleModal()}>{modal ? modalOn : modalOff} </div>
             </div>
             <br/>
         </div>
     );
-}
+};
 
 export default ChartItems;
