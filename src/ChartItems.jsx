@@ -102,13 +102,13 @@ function ChartItems(props) {
         paddingRight: '6px',
         paddingTop: '0px',
         color: 'white',
-        minHeight: '34px',
         backgroundColor: 'rgba(20, 20, 20, 0.8)',
         borderRadius: '4px',
     };
 
     const modalListStyle = {
         marginTop: '6px',
+        marginBottom: '6px',
         listStyleType: 'none',
         paddingLeft: '2px',
     };
