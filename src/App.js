@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './App.css';
 import ChartItems from './ChartItems.jsx';
 
 let barColor = [];
@@ -16,68 +15,10 @@ let deathsPerMillion = [];
 
 const dataUrl = 'https://corona-api.com/countries';
 
-function changeColor(deaths) {
-    if (deaths > 0) {
-        barColor.push(`rgba(255, 0, 0, ${deaths/maxDeaths})`);
-    } else {
-        barColor.push(`rgba(255, 0, 0, 0.0001)`);
-    }
-}
-
-function shortenName(country) {
-                if (country.name.length > 12) {
-                    return country.name.substring(0,8) + '...';
-                } else {
-                    return country.name;
-                }
-            };
-
-async function getData(url) {
-    const response = await fetch(url, {
-        method: 'GET',
-    });
-    let rawData = await response.json();
-    return rawData.data;
-};
-
-async function arrangeArray() {
-  allInfo.map((country) => {
-      if (!isNaN((country.latest_data.deaths / country.population) * 1000000) && country.population >= 1000000 && country.latest_data.deaths > 0) {
-          let singleArray = [
-              country.name,
-              shortenName(country),
-              (country.latest_data.deaths / (country.name === 'USA' ? 330138000 : country.population)) * 1000000];
-          rawArrays.push(singleArray);
-          totalDeaths += country.latest_data.deaths;
-      } else {
-          return
-      };
-    });
-
-    sortedArrays = rawArrays.sort(function(a, b) {
-        return b[2] - a[2];
-    });
-
-    // maxDeaths = sortedArrays[0][2];
-
-    sortedArrays.map((country, index) => {
-        sortedLongLabels.push(country[0]);
-        sortedShortLabels.push(country[1] + ': ' + country[2].toFixed(1));
-        deathsPerMillion.push(country[2].toFixed(1));
-
-        changeColor(country[2]);
-    });
-
-  return 1;
-};
-
-getData(dataUrl);
-
-arrangeArray();
-
 class App extends Component {
   state = {
-    data: []
+    data: [],
+    maxDeathsRatio: 0
   };
 
   async getData(url) {
@@ -91,28 +32,57 @@ class App extends Component {
   async componentDidMount() {
     const data = await this.getData(dataUrl);
 
+    let updatedData = [];
+
+    data.forEach((country, index) => {
+      const singleArray = [country.name, country.population, (country.latest_data.deaths / country.population) * 1000000];
+      if (singleArray[1] >= 1000000 && singleArray[2] > 0) {
+        updatedData.push(singleArray);
+      } else {
+        return
+      }
+      if ((country.latest_data.deaths / country.population) > this.state.maxDeathsRatio) {
+        this.setState({
+          maxDeathsRatio: (country.latest_data.deaths / country.population)
+        })
+      } else {
+        return
+      }
+    });
+
+    updatedData = updatedData.sort(function(a, b) {
+      return b[2] - a[2];
+    });
+
     this.setState({
-      data: data,
+      data: updatedData,
     });
   }
 
   render() {
-    const { data } = this.state;
+    const { data, maxDeathsRatio } = this.state;
 
     const chartStyle = {
       padding: '5px'
     }
 
-    console.log(data);
+    const titleBoxStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+    }
+
+    const title19Style = {
+      color: 'rgba(170, 0, 0, 0.8)'
+    }
 
     return(
       <div>
-        <div>
-            <h3>COVID-<span>19</span> deaths per million people*</h3>
+        <div style={titleBoxStyle}>
+            <h3>COVID-<span style={title19Style}>19</span> deaths per million people*</h3>
         </div>
         <div style={chartStyle}>
           {data.map((country, index) => {
-            return (<ChartItems info={country}/>)
+            return (<ChartItems info={country} maxDeathsRatio={maxDeathsRatio}/>)
           })}
         </div>
         <div>
