@@ -64,15 +64,45 @@ class App extends Component {
 
     const chartStyle = {
       padding: '5px'
-    }
+    };
 
     const titleBoxStyle = {
       display: 'flex',
       justifyContent: 'center',
-    }
+      backgroundColor: 'rgba(232, 232, 232, 1)',
+      borderRadius: '3px',
+    };
 
     const title19Style = {
       color: 'rgba(170, 0, 0, 0.8)'
+    };
+
+    const footnotesBoxStyle = {
+      display: 'flex',
+      margin: '20px',
+      paddingTop: '10px',
+      border: '2px solid rgba(130, 130, 130, 0.6)',
+      borderRadius: '4px',
+      backgroundColor: 'rgba(232, 232, 232, 0.1)',
+    };
+
+    const footnotesTitleStyle = {
+      fontWeight: 'bold',
+      marginBottom: '0px',
+    };
+
+    const footnotesListStyle = {
+      marginTop: '1px',
+      paddingRight: '1%',
+    };
+
+    const hrStyle = {
+      marginLeft: '165px',
+      border: '1px solid rgba(140, 140, 140)',
+      borderBottom: 'none',
+      lineStyleType: 'none',
+      color: 'white',
+      width: '10006px',
     }
 
     return(
@@ -86,22 +116,15 @@ class App extends Component {
           })}
         </div>
         <div>
-            b
+          <hr style={hrStyle}/>
         </div>
-        <div>
-            <div>
-                <div>
-                    <h4>
-                        Notes:
-                    </h4>
-                    <ul>
-                        <li>Data taken from <a href='https://about-corona.net/' target='blank'>https://about-corona.net/</a></li>
-                        <li>Only countries with populations over 1,000,000 shown</li>
-                        <li>Countries with 0 deaths excluded</li>
-                        <li>API shows USA population as ~310,000,000. Chart corrects to ~330,138,000, per <a href='https://www.census.gov/popclock/' target='blank'>https://www.census.gov/popclock/</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div style={footnotesBoxStyle}>
+          <ul style={footnotesListStyle}><div style={footnotesTitleStyle}>Notes</div>
+              <li>Data taken from <a href='https://about-corona.net/' target='blank'>https://about-corona.net/</a></li>
+              <li>Only countries with populations over 1,000,000 shown</li>
+              <li>Countries with 0 deaths excluded</li>
+              <li>API shows USA population as ~310,000,000. Chart corrects to ~330,138,000, per <a href='https://www.census.gov/popclock/' target='blank'>https://www.census.gov/popclock/</a></li>
+          </ul>
         </div>
       </div>
     )

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import arrow from './arrow-icon.png';
 
 function shortenName(longName) {
     if (longName.length > 12) {
@@ -97,7 +98,8 @@ function ChartItems(props) {
         justifyContent: 'center',
         marginLeft: '5px',
         marginTop: '5px',
-        padding: '8px',
+        padding: '4px',
+        paddingRight: '6px',
         paddingTop: '0px',
         color: 'white',
         minHeight: '34px',
@@ -112,17 +114,26 @@ function ChartItems(props) {
     };
 
     const modalNameStyle = {
-        paddingLeft: '0px',
+        paddingLeft: '0px'
     };
+
+    const modalArrowStyle = {
+        paddingRight: '4px',
+    }
 
     const modalHrStyle = {
         margin: '2px',
+        marginTop: '4px',
+        height: '1.5px',
+        backgroundColor: 'white',
+        border: 'none',
+        borderColor: 'white',
     };
 
     const modalOn = (
     <div style={modalStyle}>
         <ul style={modalListStyle}>
-            <li style={modalNameStyle}>^{name}</li>
+            <li style={modalNameStyle}><img style={modalArrowStyle} src={arrow} alt="Arrow Image"/>{name}</li>
             <hr style={modalHrStyle}/>
             <li>Population: {(population / 1000000).toFixed(1)} million</li>
             <li>Deaths: {(deathsPerMillion * (population / 1000000)).toFixed(0)}</li>
@@ -138,7 +149,7 @@ function ChartItems(props) {
             </div>
             <div style={spacerStyle}>-</div>
             <div style={barWrapperStyle}>
-    <div style={barStyle} onMouseEnter={() => toggleModal()} onMouseLeave={() => toggleModal()}>{modal ? modalOn : modalOff} </div>
+                <div style={barStyle} onMouseEnter={() => toggleModal()} onMouseLeave={() => toggleModal()}>{modal ? modalOn : modalOff} </div>
             </div>
             <br/>
         </div>
